@@ -1,18 +1,14 @@
 
-# nanoGPT
+# nanoMidiGPT
 
 ![nanoGPT](assets/nanogpt.jpg)
 
-The simplest, fastest repository for training/finetuning medium-sized GPTs. It is a rewrite of [minGPT](https://github.com/karpathy/minGPT) that prioritizes teeth over education. Still under active development, but currently the file `train.py` reproduces GPT-2 (124M) on OpenWebText, running on a single 8XA100 40GB node in about 4 days of training. The code itself is plain and readable: `train.py` is a ~300-line boilerplate training loop and `model.py` a ~300-line GPT model definition, which can optionally load the GPT-2 weights from OpenAI. That's it.
-
-![repro124m](assets/gpt2_124M_loss.png)
-
-Because the code is so simple, it is very easy to hack to your needs, train new models from scratch, or finetune pretrained checkpoints (e.g. biggest one currently available as a starting point would be the GPT-2 1.3B model from OpenAI).
+Fork of [nanoGPT](https://github.com/karpathy/nanoGPT) with updates to train sequence models on midi data.
 
 ## install
 
 ```
-pip install torch numpy transformers datasets tiktoken wandb tqdm
+pip install torch numpy transformers datasets tiktoken wandb tqdm miditok
 ```
 
 Dependencies:
@@ -24,10 +20,18 @@ Dependencies:
 -  `tiktoken` for OpenAI's fast BPE code <3
 -  `wandb` for optional logging <3
 -  `tqdm` for progress bars <3
+-  `midtok` for tokenizing midi files
 
 ## quick start
 
-If you are not a deep learning professional and you just want to feel the magic and get your feet wet, the fastest way to get started is to train a character-level GPT on the works of Shakespeare. First, we download it as a single (1MB) file and turn it from raw text into one large stream of integers:
+First download the midis zip file from the [GiantMIDI-Piano](https://github.com/bytedance/GiantMIDI-Piano/tree/master) dataset using the link in the [disclaimer.md](https://github.com/bytedance/GiantMIDI-Piano/blob/master/disclaimer.md) file of the repository. Extract the midi files to the `data/giantmidi_piano/midis` folder. Tokenize the dataset by running the `tokenize_dataset.py` script from the `data/giantmidi_piano` folder. This will create `train.bin` and `val.bin` files with the tokens.
+
+To start training run
+
+```python train.py config/train_giantmidi_piano.py```
+
+
+<!-- If you are not a deep learning professional and you just want to feel the magic and get your feet wet, the fastest way to get started is to train a character-level GPT on the works of Shakespeare. First, we download it as a single (1MB) file and turn it from raw text into one large stream of integers:
 
 ```
 $ python data/shakespeare_char/prepare.py
@@ -224,4 +228,4 @@ For more questions/discussions feel free to stop by **#nanoGPT** on Discord:
 
 ## acknowledgements
 
-All nanoGPT experiments are powered by GPUs on [Lambda labs](https://lambdalabs.com), my favorite Cloud GPU provider. Thank you Lambda labs for sponsoring nanoGPT!
+All nanoGPT experiments are powered by GPUs on [Lambda labs](https://lambdalabs.com), my favorite Cloud GPU provider. Thank you Lambda labs for sponsoring nanoGPT! -->
